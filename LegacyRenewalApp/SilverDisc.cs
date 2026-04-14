@@ -3,7 +3,7 @@ namespace LegacyRenewalApp;
 public class SilverDisc:IDiscountCalc
 {
     public decimal calucalteDiscount(decimal baseAmount, Customer customer, int seatCount, out string notes,
-        SubscriptionPlan subscriptionPlan)
+        SubscriptionPlan subscriptionPlan, bool use)
     {
         notes = "";
         decimal discountAmount = 0m;

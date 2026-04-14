@@ -17,7 +17,10 @@ namespace LegacyRenewalApp
                 new SilverDisc(),
                 new GoldDisc(),
                 new PlatinumDisc(),
-                new EducationDisc()
+                new EducationDisc(),
+                new YearsDisc(),
+                new SeatCountDisc(),
+                new LoyalityDisc()
             }
             )
         {}
@@ -70,42 +73,8 @@ namespace LegacyRenewalApp
 
             foreach (var v in _discountCalc)
             {
-             discountAmount += v.calucalteDiscount(baseAmount, customer, seatCount, out string nnotes, plan);
+             discountAmount += v.calucalteDiscount(baseAmount, customer, seatCount, out string nnotes, plan, useLoyaltyPoints);
              notes += nnotes;
-            }
-
-            if (customer.YearsWithCompany >= 5)
-            {
-                discountAmount += baseAmount * 0.07m;
-                notes += "long-term loyalty discount; ";
-            }
-            else if (customer.YearsWithCompany >= 2)
-            {
-                discountAmount += baseAmount * 0.03m;
-                notes += "basic loyalty discount; ";
-            }
-
-            if (seatCount >= 50)
-            {
-                discountAmount += baseAmount * 0.12m;
-                notes += "large team discount; ";
-            }
-            else if (seatCount >= 20)
-            {
-                discountAmount += baseAmount * 0.08m;
-                notes += "medium team discount; ";
-            }
-            else if (seatCount >= 10)
-            {
-                discountAmount += baseAmount * 0.04m;
-                notes += "small team discount; ";
-            }
-
-            if (useLoyaltyPoints && customer.LoyaltyPoints > 0)
-            {
-                int pointsToUse = customer.LoyaltyPoints > 200 ? 200 : customer.LoyaltyPoints;
-                discountAmount += pointsToUse;
-                notes += $"loyalty points used: {pointsToUse}; ";
             }
 
             decimal subtotalAfterDiscount = baseAmount - discountAmount;

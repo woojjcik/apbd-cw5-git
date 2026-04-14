@@ -16,7 +16,7 @@ namespace LegacyRenewalAppConsumer
             var invoice = renewalService.CreateRenewalInvoice(
                 customerId: 3,
                 planCode: "PRO",
-                seatCount: 18,
+                seatCount: 10,
                 paymentMethod: "CARD",
                 includePremiumSupport: true,
                 useLoyaltyPoints: true);
