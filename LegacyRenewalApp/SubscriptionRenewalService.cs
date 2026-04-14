@@ -1,9 +1,27 @@
 using System;
+using System.Collections.Generic;
 
 namespace LegacyRenewalApp
 {
     public class SubscriptionRenewalService
     {
+        private readonly IEnumerable<IDiscountCalc> _discountCalc;
+
+        public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc)
+        {
+            _discountCalc = discountCalc;
+        }
+        public SubscriptionRenewalService() : this(
+            new IDiscountCalc[]
+            {
+                new SilverDisc(),
+                new GoldDisc(),
+                new PlatinumDisc(),
+                new EducationDisc()
+            }
+            )
+        {}
+        
         public RenewalInvoice CreateRenewalInvoice(
             int customerId,
             string planCode,
@@ -46,29 +64,14 @@ namespace LegacyRenewalApp
                 throw new InvalidOperationException("Inactive customers cannot renew subscriptions");
             }
 
+            string notes = string.Empty;
             decimal baseAmount = (plan.MonthlyPricePerSeat * seatCount * 12m) + plan.SetupFee;
             decimal discountAmount = 0m;
-            string notes = string.Empty;
 
-            if (customer.Segment == "Silver")
+            foreach (var v in _discountCalc)
             {
-                discountAmount += baseAmount * 0.05m;
-                notes += "silver discount; ";
-            }
-            else if (customer.Segment == "Gold")
-            {
-                discountAmount += baseAmount * 0.10m;
-                notes += "gold discount; ";
-            }
-            else if (customer.Segment == "Platinum")
-            {
-                discountAmount += baseAmount * 0.15m;
-                notes += "platinum discount; ";
-            }
-            else if (customer.Segment == "Education" && plan.IsEducationEligible)
-            {
-                discountAmount += baseAmount * 0.20m;
-                notes += "education discount; ";
+             discountAmount += v.calucalteDiscount(baseAmount, customer, seatCount, out string nnotes, plan);
+             notes += nnotes;
             }
 
             if (customer.YearsWithCompany >= 5)

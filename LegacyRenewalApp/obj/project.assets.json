@@ -8,27 +8,25 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/pgago/.nuget/packages/": {}
+    "/Users/magda/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/pgago/Downloads/materiały_na_stronę/apbd/wykład_4/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
+      "projectUniqueName": "/Users/magda/Desktop/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
       "projectName": "LegacyRenewalApp",
-      "projectPath": "/Users/pgago/Downloads/materiały_na_stronę/apbd/wykład_4/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
-      "packagesPath": "/Users/pgago/.nuget/packages/",
-      "outputPath": "/Users/pgago/Downloads/materiały_na_stronę/apbd/wykład_4/zadanie_refactoring_renewal/LegacyRenewalApp/obj/",
+      "projectPath": "/Users/magda/Desktop/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
+      "packagesPath": "/Users/magda/.nuget/packages/",
+      "outputPath": "/Users/magda/Desktop/zadanie_refactoring_renewal/LegacyRenewalApp/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/pgago/.nuget/NuGet/NuGet.Config"
+        "/Users/magda/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://tc.itsol.tech/httpAuth/app/nuget/feed/_Root/ITSOL/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
@@ -46,7 +44,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -65,11 +63,11 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.25, 8.0.25]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.25, 8.0.25]"
           }
         ],
         "frameworkReferences": {
@@ -77,7 +75,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

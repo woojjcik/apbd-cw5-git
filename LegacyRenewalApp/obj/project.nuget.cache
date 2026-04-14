@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "gw0OkDyTqJQ=",
+  "dgSpecHash": "Qvahe90okGA=",
   "success": true,
-  "projectFilePath": "/Users/pgago/Downloads/materiały_na_stronę/apbd/wykład_4/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
+  "projectFilePath": "/Users/magda/Desktop/zadanie_refactoring_renewal/LegacyRenewalApp/LegacyRenewalApp.csproj",
   "expectedPackageFiles": [
-    "/Users/pgago/.nuget/packages/microsoft.netcore.app.ref/8.0.15/microsoft.netcore.app.ref.8.0.15.nupkg.sha512",
-    "/Users/pgago/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.15/microsoft.aspnetcore.app.ref.8.0.15.nupkg.sha512"
+    "/Users/magda/.nuget/packages/microsoft.netcore.app.ref/8.0.25/microsoft.netcore.app.ref.8.0.25.nupkg.sha512",
+    "/Users/magda/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.25/microsoft.aspnetcore.app.ref.8.0.25.nupkg.sha512"
   ],
   "logs": []
 }
