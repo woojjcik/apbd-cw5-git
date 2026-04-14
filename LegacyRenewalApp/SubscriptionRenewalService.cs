@@ -7,11 +7,17 @@ namespace LegacyRenewalApp
     {
         private readonly IEnumerable<IDiscountCalc> _discountCalc;
         private readonly ISupportFeeCalc _supportFeeCalc;
+        private readonly IPaymentFee _paymentFee;
+        private readonly ITaxCalculator _taxCalculator;
 
-        public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc, ISupportFeeCalc supportFeeCalc)
+        public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc, ISupportFeeCalc supportFeeCalc,
+            IPaymentFee paymentFee, ITaxCalculator taxCalculator)
         {
             _discountCalc = discountCalc;
             _supportFeeCalc = supportFeeCalc;
+            _paymentFee = paymentFee;
+            _taxCalculator = taxCalculator;
+
         }
         public SubscriptionRenewalService() : this(
             new IDiscountCalc[]
@@ -23,7 +29,8 @@ namespace LegacyRenewalApp
                 new YearsDisc(),
                 new SeatCountDisc(),
                 new LoyalityDisc()
-            }, new FeeCalc()
+            }, new FeeCalc(),
+            new PaymentFeeCalc(), new TaxCalc()
             )
         {}
         
@@ -93,49 +100,11 @@ namespace LegacyRenewalApp
                 notes += nnotes;
             }
 
-            decimal paymentFee = 0m;
-            if (normalizedPaymentMethod == "CARD")
-            {
-                paymentFee = (subtotalAfterDiscount + supportFee) * 0.02m;
-                notes += "card payment fee; ";
-            }
-            else if (normalizedPaymentMethod == "BANK_TRANSFER")
-            {
-                paymentFee = (subtotalAfterDiscount + supportFee) * 0.01m;
-                notes += "bank transfer fee; ";
-            }
-            else if (normalizedPaymentMethod == "PAYPAL")
-            {
-                paymentFee = (subtotalAfterDiscount + supportFee) * 0.035m;
-                notes += "paypal fee; ";
-            }
-            else if (normalizedPaymentMethod == "INVOICE")
-            {
-                paymentFee = 0m;
-                notes += "invoice payment; ";
-            }
-            else
-            {
-                throw new ArgumentException("Unsupported payment method");
-            }
+            decimal paymentFee = _paymentFee.calculatePaymentFee(normalizedPaymentMethod, 
+                supportFee, subtotalAfterDiscount, out string ntes);
+            notes += ntes;
 
-            decimal taxRate = 0.20m;
-            if (customer.Country == "Poland")
-            {
-                taxRate = 0.23m;
-            }
-            else if (customer.Country == "Germany")
-            {
-                taxRate = 0.19m;
-            }
-            else if (customer.Country == "Czech Republic")
-            {
-                taxRate = 0.21m;
-            }
-            else if (customer.Country == "Norway")
-            {
-                taxRate = 0.25m;
-            }
+            decimal taxRate = _taxCalculator.calculateTax(customer);
 
             decimal taxBase = subtotalAfterDiscount + supportFee + paymentFee;
             decimal taxAmount = taxBase * taxRate;
