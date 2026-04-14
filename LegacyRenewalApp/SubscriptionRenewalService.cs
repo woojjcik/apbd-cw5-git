@@ -6,10 +6,12 @@ namespace LegacyRenewalApp
     public class SubscriptionRenewalService
     {
         private readonly IEnumerable<IDiscountCalc> _discountCalc;
+        private readonly ISupportFeeCalc _supportFeeCalc;
 
-        public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc)
+        public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc, ISupportFeeCalc supportFeeCalc)
         {
             _discountCalc = discountCalc;
+            _supportFeeCalc = supportFeeCalc;
         }
         public SubscriptionRenewalService() : this(
             new IDiscountCalc[]
@@ -21,7 +23,7 @@ namespace LegacyRenewalApp
                 new YearsDisc(),
                 new SeatCountDisc(),
                 new LoyalityDisc()
-            }
+            }, new FeeCalc()
             )
         {}
         
@@ -87,20 +89,8 @@ namespace LegacyRenewalApp
             decimal supportFee = 0m;
             if (includePremiumSupport)
             {
-                if (normalizedPlanCode == "START")
-                {
-                    supportFee = 250m;
-                }
-                else if (normalizedPlanCode == "PRO")
-                {
-                    supportFee = 400m;
-                }
-                else if (normalizedPlanCode == "ENTERPRISE")
-                {
-                    supportFee = 700m;
-                }
-
-                notes += "premium support included; ";
+                supportFee = _supportFeeCalc.calculateFee(normalizedPlanCode, out string nnotes);
+                notes += nnotes;
             }
 
             decimal paymentFee = 0m;
