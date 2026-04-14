@@ -9,14 +9,16 @@ namespace LegacyRenewalApp
         private readonly ISupportFeeCalc _supportFeeCalc;
         private readonly IPaymentFee _paymentFee;
         private readonly ITaxCalculator _taxCalculator;
+        private readonly ILegacyBillingGateway _legacyBillingGateway;
 
         public SubscriptionRenewalService(IEnumerable<IDiscountCalc> discountCalc, ISupportFeeCalc supportFeeCalc,
-            IPaymentFee paymentFee, ITaxCalculator taxCalculator)
+            IPaymentFee paymentFee, ITaxCalculator taxCalculator, ILegacyBillingGateway iLegacyBillingGateway)
         {
             _discountCalc = discountCalc;
             _supportFeeCalc = supportFeeCalc;
             _paymentFee = paymentFee;
             _taxCalculator = taxCalculator;
+            _legacyBillingGateway = iLegacyBillingGateway;
 
         }
         public SubscriptionRenewalService() : this(
@@ -30,7 +32,7 @@ namespace LegacyRenewalApp
                 new SeatCountDisc(),
                 new LoyalityDisc()
             }, new FeeCalc(),
-            new PaymentFeeCalc(), new TaxCalc()
+            new PaymentFeeCalc(), new TaxCalc(), new LegacyBillingGatewayExtnd()
             )
         {}
         
@@ -133,7 +135,7 @@ namespace LegacyRenewalApp
                 GeneratedAt = DateTime.UtcNow
             };
 
-            LegacyBillingGateway.SaveInvoice(invoice);
+            _legacyBillingGateway.SaveInvoice(invoice);
 
             if (!string.IsNullOrWhiteSpace(customer.Email))
             {
@@ -142,7 +144,7 @@ namespace LegacyRenewalApp
                     $"Hello {customer.FullName}, your renewal for plan {normalizedPlanCode} " +
                     $"has been prepared. Final amount: {invoice.FinalAmount:F2}.";
 
-                LegacyBillingGateway.SendEmail(customer.Email, subject, body);
+                _legacyBillingGateway.SendEmail(customer.Email, subject, body);
             }
 
             return invoice;
